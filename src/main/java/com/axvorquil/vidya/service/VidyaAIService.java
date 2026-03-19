@@ -317,24 +317,63 @@ public class VidyaAIService {
     // ─────────────────────────────────────────────────────────────
 
     private List<GeneratedQuestion> templateQuestions(QuestionRequest req, String topic, String difficulty) {
-        return List.of(
+        String exam = req.getExam();
+        List<GeneratedQuestion> bank = new ArrayList<>(List.of(
             GeneratedQuestion.builder()
-                .question("Sample question on " + topic + " for " + req.getExam() + ": If a train travels 120 km in 2 hours, what is its speed?")
+                .question("If a train travels 120 km in 2 hours, what is its speed?")
                 .options(List.of("A) 50 km/h", "B) 60 km/h", "C) 70 km/h", "D) 80 km/h"))
-                .correctOption("B")
-                .explanation("Speed = Distance ÷ Time = 120 ÷ 2 = 60 km/h. Basic formula application.")
-                .topic(topic)
-                .difficulty(difficulty)
-                .build(),
+                .correctOption("B").topic(topic).difficulty(difficulty)
+                .explanation("Speed = Distance ÷ Time = 120 ÷ 2 = 60 km/h.").build(),
             GeneratedQuestion.builder()
                 .question("What percentage of 200 is 50?")
                 .options(List.of("A) 15%", "B) 20%", "C) 25%", "D) 30%"))
-                .correctOption("C")
-                .explanation("(50 ÷ 200) × 100 = 25%. Direct percentage formula.")
-                .topic(topic)
-                .difficulty(difficulty)
-                .build()
-        );
+                .correctOption("C").topic(topic).difficulty(difficulty)
+                .explanation("(50 ÷ 200) × 100 = 25%.").build(),
+            GeneratedQuestion.builder()
+                .question("A shopkeeper marks an item 40% above cost price and gives 20% discount. What is the profit percentage?")
+                .options(List.of("A) 8%", "B) 10%", "C) 12%", "D) 20%"))
+                .correctOption("C").topic(topic).difficulty(difficulty)
+                .explanation("SP = 140% × 80% = 112% of CP. Profit = 12%.").build(),
+            GeneratedQuestion.builder()
+                .question("Which article of the Indian Constitution deals with Right to Equality?")
+                .options(List.of("A) Article 12", "B) Article 14", "C) Article 19", "D) Article 21"))
+                .correctOption("B").topic(topic).difficulty(difficulty)
+                .explanation("Article 14 guarantees equality before law and equal protection of laws.").build(),
+            GeneratedQuestion.builder()
+                .question("The Headquarters of International Monetary Fund (IMF) is located in?")
+                .options(List.of("A) New York", "B) London", "C) Washington D.C.", "D) Geneva"))
+                .correctOption("C").topic(topic).difficulty(difficulty)
+                .explanation("IMF headquarters is in Washington D.C., USA.").build(),
+            GeneratedQuestion.builder()
+                .question("A and B can complete a work in 12 days and 18 days respectively. In how many days will they finish it together?")
+                .options(List.of("A) 6 days", "B) 7.2 days", "C) 8 days", "D) 9 days"))
+                .correctOption("B").topic(topic).difficulty(difficulty)
+                .explanation("Combined rate = 1/12 + 1/18 = 5/36. Days = 36/5 = 7.2 days.").build(),
+            GeneratedQuestion.builder()
+                .question("Which of the following is NOT a greenhouse gas?")
+                .options(List.of("A) CO2", "B) Methane", "C) Nitrogen", "D) Water Vapour"))
+                .correctOption("C").topic(topic).difficulty(difficulty)
+                .explanation("Nitrogen (N2) is not a greenhouse gas. It does not absorb infrared radiation.").build(),
+            GeneratedQuestion.builder()
+                .question("Find the odd one out: 2, 5, 10, 17, 26, 37, 50, 64")
+                .options(List.of("A) 37", "B) 50", "C) 64", "D) 26"))
+                .correctOption("C").topic(topic).difficulty(difficulty)
+                .explanation("Series: n²+1 = 5,10,17,26,37,50,65. 64 breaks the pattern (should be 65).").build(),
+            GeneratedQuestion.builder()
+                .question("Simple interest on Rs. 4000 at 5% per annum for 3 years is?")
+                .options(List.of("A) Rs. 400", "B) Rs. 500", "C) Rs. 600", "D) Rs. 700"))
+                .correctOption("C").topic(topic).difficulty(difficulty)
+                .explanation("SI = P×R×T/100 = 4000×5×3/100 = Rs. 600.").build(),
+            GeneratedQuestion.builder()
+                .question("Who was the first woman President of India?")
+                .options(List.of("A) Indira Gandhi", "B) Sonia Gandhi", "C) Pratibha Patil", "D) Sarojini Naidu"))
+                .correctOption("C").topic(topic).difficulty(difficulty)
+                .explanation("Pratibha Patil served as the 12th President of India (2007–2012).").build()
+        ));
+
+        Collections.shuffle(bank);
+        int count = Math.min(req.getCount(), bank.size());
+        return bank.subList(0, count);
     }
 
     private String templateExplanation(ExplainRequest req) {

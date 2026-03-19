@@ -6,7 +6,7 @@ spring:
     name: axvorquil-vidyaai-service
   data:
     mongodb:
-      uri: ${MONGODB_URI:mongodb+srv://axvorquil:password@cluster0.mongodb.net/axvorquil_vidya?retryWrites=true&w=majority}
+      uri: ${MONGODB_URI:mongodb+srv://atul583b:This583Works@cluster0.elwy7.mongodb.net/axvorquil_vidya?appName=Cluster0}
       database: axvorquil_vidya
 
 anthropic:
