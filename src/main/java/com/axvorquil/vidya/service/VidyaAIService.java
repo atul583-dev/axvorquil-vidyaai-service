@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -196,6 +197,7 @@ public class VidyaAIService {
     // HISTORY
     // ─────────────────────────────────────────────────────────────
 
+    @Cacheable(value = "questionHistory", key = "#vertical?.name() ?: 'all'")
     public List<QuestionSession> getQuestionHistory(Vertical vertical) {
         String tid = TenantContext.get();
         return vertical != null
@@ -203,6 +205,7 @@ public class VidyaAIService {
             : questionRepo.findByTenantIdOrderByCreatedAtDesc(tid);
     }
 
+    @Cacheable("readinessHistory")
     public List<ReadinessSession> getReadinessHistory() {
         return readinessRepo.findByTenantIdOrderByCreatedAtDesc(TenantContext.get());
     }
