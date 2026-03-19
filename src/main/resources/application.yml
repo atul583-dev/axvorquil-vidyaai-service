@@ -1,0 +1,28 @@
+server:
+  port: 8089
+
+spring:
+  application:
+    name: axvorquil-vidyaai-service
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb+srv://axvorquil:password@cluster0.mongodb.net/axvorquil_vidya?retryWrites=true&w=majority}
+      database: axvorquil_vidya
+
+anthropic:
+  api-key: ${ANTHROPIC_API_KEY:}
+  model: claude-3-5-haiku-20241022
+  max-tokens: 2048
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.axvorquil.vidya: DEBUG

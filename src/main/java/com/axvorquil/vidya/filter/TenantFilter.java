@@ -1,0 +1,18 @@
+package com.axvorquil.vidya.filter;
+
+import com.axvorquil.vidya.context.TenantContext;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.stereotype.Component;
+import java.io.IOException;
+
+@Component
+public class TenantFilter implements Filter {
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+            throws IOException, ServletException {
+        String tid = ((HttpServletRequest) req).getHeader("X-Tenant-ID");
+        TenantContext.set(tid != null ? tid : "default");
+        try { chain.doFilter(req, res); } finally { TenantContext.clear(); }
+    }
+}
