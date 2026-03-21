@@ -22,6 +22,9 @@ management:
   endpoint:
     health:
       show-details: always
+  health:
+    mongo:
+      enabled: false   # MongoDB check causes delays on Atlas
 
 logging:
   level:
